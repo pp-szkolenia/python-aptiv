@@ -3,6 +3,7 @@ from datetime import date, timedelta, datetime
 
 class Task:
     status_dict = {True: "Done", False: "To do"}
+    allowed_priorities = (1, 2, 3)
 
     def __init__(self, task_data: dict):
         self.description: str = task_data["description"]
@@ -37,6 +38,18 @@ class Task:
         else:
             print('Podany opis nie jest stringiem')
 
+    def mark_as_complete(self):
+        if not self.is_complete:
+            self.is_complete = True
+        else:
+            print("Zadanie już zostało ukończone")
+
+    def change_priority(self, new_priority):
+        if new_priority in self.allowed_priorities:
+            self.priority = new_priority
+        else:
+            print("Niepoprawna wartość priorytetu")
+
 
 data_base = {
             "description": "Learn Python",
@@ -53,8 +66,14 @@ data_base = {
         }
 
 new_task = Task(data_base)
-print(new_task)
-print(new_task.jsonify())
-new_description = 'practice python'
-new_task.edit_description(new_description)
-print(new_task.description)
+print(new_task.is_complete)
+
+new_task.mark_as_complete()
+print(new_task.is_complete)
+
+new_task.mark_as_complete()
+
+# ----
+print(new_task.priority)
+new_task.change_priority(24)
+print(new_task.priority)
