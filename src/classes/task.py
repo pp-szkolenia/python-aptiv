@@ -20,6 +20,23 @@ class Task:
                           f"Assignee: {self.assignee}",
                           f"Due date: {self.due_date}"])
 
+    def jsonify(self):
+        result_dict = {'description': self.description,
+                       'assignee': self.assignee,
+                       'due_date': str(self.due_date),
+                       'priority': self.priority,
+                       'time_logged': self.time_logged.seconds,
+                       'is_complete': self.is_complete,
+                       'tags': self.tags,
+                       'comments': self.comments}
+        return result_dict
+
+    def edit_description(self, new_description):
+        if isinstance(new_description, str):
+            self.description = new_description
+        else:
+            print('Podany opis nie jest stringiem')
+
 
 data_base = {
             "description": "Learn Python",
@@ -37,3 +54,7 @@ data_base = {
 
 new_task = Task(data_base)
 print(new_task)
+print(new_task.jsonify())
+new_description = 'practice python'
+new_task.edit_description(new_description)
+print(new_task.description)
