@@ -50,30 +50,24 @@ class Task:
         else:
             print("Niepoprawna wartość priorytetu")
 
+    def log_time(self, time_logged):
+        if isinstance(time_logged, timedelta):
+            self.time_logged += time_logged
+        else:
+            raise TypeError("Podaj wartość w formie timedelta")
 
-data_base = {
-            "description": "Learn Python",
-            "assignee": "Andrzej",
-            "due_date": "2023-11-12",
-            "priority": 3,
-            "time_logged": 0.0,
-            "is_complete": False,
-            "tags": [
-                "coding",
-                "python"
-            ],
-            "comments": []
-        }
 
-new_task = Task(data_base)
-print(new_task.is_complete)
+    def add_comment(self, comment):
+        if self._validate_comment(comment):
+            self.comments.append(comment)
+        else:
+            raise ValueError("Komentarz powinien byc slownikiem o kluczach autor i text")
 
-new_task.mark_as_complete()
-print(new_task.is_complete)
+    @staticmethod
+    def _validate_comment(comment):
+        if isinstance(comment, dict):
+            if "text" in comment and "author" in comment:
+                if isinstance(comment["text"], str) and isinstance(comment["author"], str):
+                    return True
+        return False
 
-new_task.mark_as_complete()
-
-# ----
-print(new_task.priority)
-new_task.change_priority(24)
-print(new_task.priority)
